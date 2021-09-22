@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Search Images</string>
+    <string name="error_placeholder">Error: %1$s</string>
 </resources>
