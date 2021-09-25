@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="itemModel"
+            type="com.example.searchimages.ui.models.ImageItemUIModel" />
+
+        <variable
+            name="listener"
+            type="com.example.searchimages.ui.searchImages.ImagesAdapter.OnItemClickListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/xx_small_dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()-> listener.onItemClick(itemModel)}"
+        app:cardCornerRadius="@dimen/x_small_dp"
+        app:cardElevation="@dimen/xx_small_dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgThumbnails"
+                android:layout_width="@dimen/small_image"
+                android:layout_height="@dimen/no_dp"
+                android:layout_margin="@dimen/x_small_dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:loadImage="@{itemModel.thumbnail}"
+                tools:srcCompat="@tools:sample/avatars" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgTags"
+                android:layout_width="@dimen/no_dp"
+                android:layout_height="@dimen/no_dp"
+                android:layout_marginStart="@dimen/x_small_dp"
+                android:layout_marginTop="@dimen/x_small_dp"
+                android:layout_marginEnd="@dimen/x_small_dp"
+                android:layout_marginBottom="@dimen/x_small_dp"
+                app:layout_constraintBottom_toTopOf="@id/txtByUser"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgThumbnails"
+                app:layout_constraintTop_toTopOf="parent"
+                app:loadTags="@{itemModel.tags}" />
+
+            <TextView
+                android:id="@+id/txtByUser"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_small_dp"
+                android:layout_marginBottom="@dimen/x_small_dp"
+                android:text="@{@string/by_username(itemModel.username)}"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/imgThumbnails"
+                tools:text="By Arjun Kumar" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -21,6 +21,7 @@ class DataMapper {
     fun toImageInfoEntity(response: SearchAPIResponse.Hit): ImageInfoEntity {
         return response.run {
             ImageInfoEntity(
+                id = "$id",
                 user = toUserEntity(this),
                 thumbnail = previewURL,
                 image = largeImageURL,

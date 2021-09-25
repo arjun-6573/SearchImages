@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 
 interface MyApi {
-    @GET("image_type=photo")
+    @GET("?image_type=photo")
     suspend fun searchImages(
         @Query("q") searchKey: String,
         @Query("page") pageNo: Int,

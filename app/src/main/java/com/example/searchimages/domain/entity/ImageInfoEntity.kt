@@ -1,6 +1,7 @@
 package com.example.searchimages.domain.entity
 
 data class ImageInfoEntity(
+    val id: String,
     val user: UserEntity,
     val thumbnail: String,
     val image: String,
