@@ -74,6 +74,11 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_image_details" />
 
+        <include
+            layout="@layout/layout_loading"
+            app:visible="@{viewModel.isLoading()}"
+            tools:visibility="gone" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
