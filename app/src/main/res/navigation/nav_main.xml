@@ -9,5 +9,18 @@
         android:id="@+id/searchImagesFragment"
         android:name="com.example.searchimages.ui.searchImages.SearchImagesFragment"
         android:label="@string/welcome"
-        tools:layout="@layout/fragment_search_images" />
+        tools:layout="@layout/fragment_search_images">
+        <action
+            android:id="@+id/action_searchImagesFragment_to_imageDetailsFragment"
+            app:destination="@id/imageDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailsFragment"
+        android:name="com.example.searchimages.ui.imageDetails.ImageDetailsFragment"
+        android:label="@string/image_details"
+        tools:layout="@layout/fragment_image_details">
+        <argument
+            android:name="imageDetails"
+            app:argType="com.example.searchimages.ui.models.ImageItemUIModel" />
+    </fragment>
 </navigation>

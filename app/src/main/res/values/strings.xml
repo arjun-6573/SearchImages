@@ -3,6 +3,7 @@
     <string name="error_placeholder">Error: %1$s</string>
     <string name="search_image">Search image…</string>
     <string name="welcome">Welcome</string>
+    <string name="image_details">Image Details</string>
     <string name="by_username">By %s</string>
     <string name="please_wait">Please wait…</string>
 </resources>

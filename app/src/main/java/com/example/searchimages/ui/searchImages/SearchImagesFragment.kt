@@ -1,6 +1,7 @@
 package com.example.searchimages.ui.searchImages
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchimages.databinding.FragmentSearchImagesBinding
@@ -66,6 +67,8 @@ class SearchImagesFragment :
     }
 
     override fun onItemClick(item: ImageItemUIModel) {
-//        todo need to implement
+        val direction =
+            SearchImagesFragmentDirections.actionSearchImagesFragmentToImageDetailsFragment(item)
+        findNavController().navigate(direction)
     }
 }

@@ -4,12 +4,17 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-@BindingAdapter("app:loadImage")
-fun loadImage(imageView: ImageView, url: String) {
-    Glide.with(imageView).load(url).into(imageView)
+@BindingAdapter("app:loadImage", "app:thumbnail", requireAll = false)
+fun loadImage(imageView: ImageView, url: String, thumbnail: String?) {
+    Glide.with(imageView)
+        .load(url)
+        .thumbnail(Glide.with(imageView).load(thumbnail))
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(imageView)
 }
 
 @BindingAdapter("app:loadTags")

@@ -1,5 +1,9 @@
 package com.example.searchimages.ui.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ImageItemUIModel(
     val id: String,
     val username: String,
@@ -10,4 +14,4 @@ data class ImageItemUIModel(
     val viewsCount: String,
     val downloadsCount: String,
     val tags: List<String>,
-)
+) : Parcelable

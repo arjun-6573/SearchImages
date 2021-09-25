@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="imageDetail"
+            type="com.example.searchimages.ui.models.ImageItemUIModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/medium_dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/medium_dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/medium_dp" />
+
+
+            <ImageView
+                android:id="@+id/imgThumbnails"
+
+                android:layout_width="@dimen/no_dp"
+                android:layout_height="@dimen/no_dp"
+                android:layout_margin="@dimen/x_small_dp"
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+                app:layout_constraintTop_toTopOf="parent"
+                app:loadImage="@{imageDetail.image}"
+                app:thumbnail="@{imageDetail.thumbnail}"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/txtByUser"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x_small_dp"
+                android:text="@{@string/by_username(imageDetail.username)}"
+                app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/imgThumbnails"
+                tools:text="By Arjun Kumar" />
+
+
+            <TextView
+                android:id="@+id/txtLikes"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_dp"
+                android:drawablePadding="@dimen/x_small_dp"
+                android:text="@{imageDetail.likesCount}"
+                app:drawableStartCompat="@drawable/ic_like"
+                app:layout_constraintEnd_toStartOf="@+id/txtDownloads"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/txtByUser"
+                tools:text="1k" />
+
+            <TextView
+                android:id="@+id/txtDownloads"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/x_small_dp"
+                android:text="@{imageDetail.downloadsCount}"
+                app:drawableStartCompat="@drawable/ic_download"
+                app:layout_constraintBottom_toBottomOf="@+id/txtLikes"
+                app:layout_constraintEnd_toStartOf="@+id/txtComments"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/txtLikes"
+                app:layout_constraintTop_toTopOf="@+id/txtLikes"
+                tools:text="1k" />
+
+            <TextView
+                android:id="@+id/txtComments"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/x_small_dp"
+                android:text="@{imageDetail.commentsCount}"
+                app:drawableStartCompat="@drawable/ic_comment"
+                app:layout_constraintBottom_toBottomOf="@+id/txtDownloads"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/txtDownloads"
+                app:layout_constraintTop_toTopOf="@+id/txtDownloads"
+                tools:text="1k" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgTags"
+                android:layout_width="@dimen/no_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_dp"
+                android:layout_marginBottom="@dimen/medium_dp"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/txtLikes"
+                app:layout_constraintVertical_bias="0.0"
+                app:loadTags="@{imageDetail.tags}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
