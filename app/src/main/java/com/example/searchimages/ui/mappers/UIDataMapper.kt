@@ -5,7 +5,7 @@ import com.example.searchimages.domain.entity.PageInfoEntity
 import com.example.searchimages.ui.models.ImageItemUIModel
 import com.example.searchimages.utils.AppConstants
 import com.example.searchimages.utils.toKFormat
-import java.util.*
+import com.example.searchimages.utils.toTagFormat
 
 class UIDataMapper {
     fun toSearchImagePageInfo(pageNo: Int): PageInfoEntity {
@@ -19,21 +19,11 @@ class UIDataMapper {
                 it.user.name,
                 it.thumbnail,
                 it.image,
-                it.likes.toKFormat(),
-                it.comments.toKFormat(),
-                it.views.toKFormat(),
-                it.downloads.toKFormat(),
-                it.tags.map { tagName -> toTag(tagName) })
+                toKFormat(it.likes),
+                toKFormat(it.comments),
+                toKFormat(it.views),
+                toKFormat(it.downloads),
+                it.tags.map { tagName -> toTagFormat(tagName) })
         }
-    }
-
-    fun toTag(tagName: String): String {
-        return "${AppConstants.HASH_TAG}${
-            tagName.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(
-                    Locale.getDefault()
-                ) else it.toString()
-            }
-        }"
     }
 }
