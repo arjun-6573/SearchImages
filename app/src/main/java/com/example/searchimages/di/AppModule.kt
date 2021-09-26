@@ -1,5 +1,6 @@
 package com.example.searchimages.di
 
+import android.content.Context
 import com.example.searchimages.external.remote.MyApi
 import com.example.searchimages.external.remote.RequestInterceptor
 import com.google.gson.Gson
@@ -25,9 +26,11 @@ import com.example.searchimages.domain.usecases.SearchImageUseCase
 import com.example.searchimages.ui.mappers.UIDataMapper
 import com.example.searchimages.utils.dispatcher.MyDispatchers
 import com.example.searchimages.utils.dispatcher.MyDispatchersImpl
-import dagger.Binds
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
+import okhttp3.Cache
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -47,12 +50,24 @@ object AppModule {
     }
 
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpCache(@ApplicationContext context: Context): Cache {
+//        2 MB cache file
+        val file = File(context.cacheDir, "offline_cache")
+        return Cache(file, (2 * 1024 * 1024))
+    }
+
+    @Provides
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        interceptor: Interceptor,
+        cache: Cache
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(RequestInterceptor())
+            .addInterceptor(RequestInterceptor(context))
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
+            .cache(cache)
             .build()
 
     }
@@ -104,17 +119,6 @@ object AppModule {
         return UIDataMapper()
     }
 }
-
-/*
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class AppBinder {
-    @Binds
-    abstract fun bindDataMapper(): DataMapper
-
-    @Binds
-    abstract fun bindUIDataMapper(): UIDataMapper
-}*/
 
 @Module
 @InstallIn(ViewModelComponent::class)
