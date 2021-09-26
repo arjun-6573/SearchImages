@@ -74,6 +74,19 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_image_details" />
 
+        <TextView
+            android:id="@+id/txtNoData"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data_found"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/cardSearch"
+            app:visibleOrGone="@{viewModel.isSearchListEmpty()}" />
+
         <include
             layout="@layout/layout_loading"
             app:visible="@{viewModel.isLoading()}"

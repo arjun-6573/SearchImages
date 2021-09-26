@@ -6,4 +6,5 @@
     <string name="image_details">Image Details</string>
     <string name="by_username">By %s</string>
     <string name="please_wait">Please wait…</string>
+    <string name="no_data_found">No data found…</string>
 </resources>

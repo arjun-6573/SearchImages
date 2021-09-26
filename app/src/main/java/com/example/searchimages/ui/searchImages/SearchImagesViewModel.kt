@@ -2,19 +2,24 @@ package com.example.searchimages.ui.searchImages
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.asFlow
 import com.example.searchimages.domain.usecases.SearchImageUseCase
 import com.example.searchimages.ui.base.BaseViewModel
 import com.example.searchimages.ui.base.Result
 import com.example.searchimages.ui.mappers.UIDataMapper
 import com.example.searchimages.ui.models.ImageItemUIModel
+import com.example.searchimages.utils.AppConstants
 import com.example.searchimages.utils.dispatcher.MyDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val myDispatchers: MyDispatchers,
@@ -31,9 +36,18 @@ class SearchImagesViewModel @Inject constructor(
     private var searchedKey: String? = null
     private var pagingEnd: Boolean = false
 
+    val isSearchListEmpty = Transformations.map(_searchList) {
+        it.isNullOrEmpty()
+    }
+
     init {
-        searchStream.observeForever { searchKey ->
-            searchKey?.let { searchImages(it) }
+        uiScope.launch {
+            searchStream
+                .asFlow()
+                .debounce(AppConstants.SEARCH_DELAY)
+                .collectLatest { searchKey ->
+                    searchKey?.let { searchImages(it) }
+                }
         }
     }
 
@@ -46,6 +60,13 @@ class SearchImagesViewModel @Inject constructor(
         if (pagingEnd) {
             return@launch
         }
+
+        if (key.isEmpty()) {
+            updateSearchData(emptyList())
+            setLoading(false)
+            return@launch
+        }
+
         searchedKey = key
         searchImageUseCase.invoke(key, uiDataMapper.toSearchImagePageInfo(++pageNo))
             .onCompletion { setLoading(false) }
