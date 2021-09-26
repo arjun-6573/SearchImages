@@ -1,5 +1,6 @@
 package com.example.searchimages.ui.searchImages
 
+import android.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +9,7 @@ import com.example.searchimages.databinding.FragmentSearchImagesBinding
 import com.example.searchimages.ui.base.BaseFragment
 import com.example.searchimages.ui.models.ImageItemUIModel
 import com.example.searchimages.utils.Layouts
+import com.example.searchimages.utils.Strings
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,11 +66,35 @@ class SearchImagesFragment :
                 }
             })
         }
+
+        searchImagesViewModel.selectedItem.observe(viewLifecycleOwner) { item ->
+            item?.let { showDetailConfirmationDialog(it) }
+        }
     }
 
     override fun onItemClick(item: ImageItemUIModel) {
+        searchImagesViewModel.onImageItemClick(item)
+    }
+
+    private fun showDetailConfirmationDialog(item: ImageItemUIModel) {
+        AlertDialog.Builder(context).setTitle(Strings.please_confirm)
+            .setMessage(Strings.do_you_want_to_view_details)
+            .setPositiveButton(Strings.yes) { dialog, _ ->
+                openDetailsPage(item)
+                dialog.dismiss()
+            }
+            .setNegativeButton(Strings.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }.setOnDismissListener {
+                searchImagesViewModel.onDismissClick()
+            }.create().show()
+    }
+
+    private fun openDetailsPage(item: ImageItemUIModel) {
         val direction =
-            SearchImagesFragmentDirections.actionSearchImagesFragmentToImageDetailsFragment(item)
+            SearchImagesFragmentDirections.actionSearchImagesFragmentToImageDetailsFragment(
+                item
+            )
         findNavController().navigate(direction)
     }
 }

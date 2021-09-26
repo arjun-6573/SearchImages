@@ -7,4 +7,8 @@
     <string name="by_username">By %s</string>
     <string name="please_wait">Please wait…</string>
     <string name="no_data_found">No data found…</string>
+    <string name="please_confirm">Please confirm…</string>
+    <string name="do_you_want_to_view_details">Do you want to view image details?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>

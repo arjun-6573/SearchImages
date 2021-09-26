@@ -40,6 +40,9 @@ class SearchImagesViewModel @Inject constructor(
         it.isNullOrEmpty()
     }
 
+    private val _selectedItem = MutableLiveData<ImageItemUIModel?>()
+    val selectedItem: LiveData<ImageItemUIModel?> = _selectedItem
+
     init {
         uiScope.launch {
             searchStream
@@ -100,4 +103,11 @@ class SearchImagesViewModel @Inject constructor(
         pageNo = 0
     }
 
+    fun onImageItemClick(item: ImageItemUIModel) {
+        _selectedItem.value = item
+    }
+
+    fun onDismissClick() {
+        _selectedItem.value = null
+    }
 }
