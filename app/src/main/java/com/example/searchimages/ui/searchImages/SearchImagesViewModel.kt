@@ -48,6 +48,7 @@ class SearchImagesViewModel @Inject constructor(
             searchStream
                 .asFlow()
                 .debounce(AppConstants.SEARCH_DELAY)
+                .distinctUntilChanged()
                 .collectLatest { searchKey ->
                     searchKey?.let { searchImages(it) }
                 }
