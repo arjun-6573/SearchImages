@@ -12,6 +12,7 @@ import com.example.searchimages.ui.mappers.UIDataMapper
 import com.example.searchimages.ui.models.ImageItemUIModel
 import com.example.searchimages.utils.TestDispatchersImpl
 import com.example.searchimages.utils.captureValues
+import com.example.searchimages.utils.espresso.FakeEspressoIdleResourceImpl
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -69,6 +70,7 @@ class SearchImagesViewModelTest {
         searchViewModel = SearchImagesViewModel(
             TestDispatchersImpl(),
             UIDataMapper(),
+            FakeEspressoIdleResourceImpl(),
             SearchImageUseCase(repository)
         )
     }

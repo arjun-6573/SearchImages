@@ -26,6 +26,8 @@ import com.example.searchimages.domain.usecases.SearchImageUseCase
 import com.example.searchimages.ui.mappers.UIDataMapper
 import com.example.searchimages.utils.dispatcher.MyDispatchers
 import com.example.searchimages.utils.dispatcher.MyDispatchersImpl
+import com.example.searchimages.utils.espresso.EspressoIdleResourceImpl
+import com.example.searchimages.utils.espresso.EspressoIdleResources
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -129,4 +131,14 @@ object ViewModelModule {
         return SearchImageUseCase(repository)
     }
 
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object TestModule {
+    @Provides
+    @Singleton
+    fun bindEspressoIdleResources(): EspressoIdleResources {
+        return EspressoIdleResourceImpl()
+    }
 }

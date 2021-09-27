@@ -22,7 +22,11 @@ fun loadTags(chipGroup: ChipGroup, tags: List<String>) {
     chipGroup.removeAllViews()
     val context = chipGroup.context
     tags.forEach {
-        chipGroup.addView(Chip(context).apply { text = it })
+        chipGroup.addView(Chip(context).apply {
+            text = it
+            isClickable = false
+            isFocusable = false
+        })
     }
 }
 

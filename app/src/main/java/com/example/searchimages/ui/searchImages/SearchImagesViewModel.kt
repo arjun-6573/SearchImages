@@ -11,6 +11,7 @@ import com.example.searchimages.ui.mappers.UIDataMapper
 import com.example.searchimages.ui.models.ImageItemUIModel
 import com.example.searchimages.utils.AppConstants
 import com.example.searchimages.utils.dispatcher.MyDispatchers
+import com.example.searchimages.utils.espresso.EspressoIdleResources
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class SearchImagesViewModel @Inject constructor(
     private val myDispatchers: MyDispatchers,
     private val uiDataMapper: UIDataMapper,
+    private val espressoIdleResources: EspressoIdleResources,
     private val searchImageUseCase: SearchImageUseCase
 ) :
     BaseViewModel(myDispatchers) {
@@ -43,11 +45,25 @@ class SearchImagesViewModel @Inject constructor(
     private val _selectedItem = MutableLiveData<ImageItemUIModel?>()
     val selectedItem: LiveData<ImageItemUIModel?> = _selectedItem
 
+    private var testingCounter = 0
+
     init {
         uiScope.launch {
             searchStream
                 .asFlow()
+                .filter {
+                    espressoIdleResources.increment()
+                    testingCounter++
+                    true
+                }
                 .debounce(AppConstants.SEARCH_DELAY)
+                .filter {
+                    while (testingCounter > 0) {
+                        testingCounter--
+                        espressoIdleResources.decrement()
+                    }
+                    true
+                }
                 .distinctUntilChanged()
                 .collectLatest { searchKey ->
                     searchKey?.let { searchImages(it) }
@@ -72,8 +88,12 @@ class SearchImagesViewModel @Inject constructor(
         }
 
         searchedKey = key
+        espressoIdleResources.increment()
         searchImageUseCase.invoke(key, uiDataMapper.toSearchImagePageInfo(++pageNo))
-            .onCompletion { setLoading(false) }
+            .onCompletion {
+                setLoading(false)
+                espressoIdleResources.decrement()
+            }
             .catch {
                 event.postValue(Result.Error(it.message.orEmpty()))
                 Timber.e(it)
